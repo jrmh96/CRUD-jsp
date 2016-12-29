@@ -79,9 +79,7 @@ public class HrController {
 	@RequestMapping(value="/create-new", method=RequestMethod.GET)
 	public String createPage(Model model){
 		List<JobDTO> jobs = this.misc.getJobs();
-		
 		List<DepartmentDTO> departments = this.deptServ.getDepartments();
-		
 		model.addAttribute("jobs", jobs);
 		model.addAttribute("departments", departments);
 		return "create";
@@ -119,7 +117,8 @@ public class HrController {
 	
 	//Update:
 	@RequestMapping("/update")
-	String update(@RequestParam("id") Long empId, Model model) throws ParseException{
+	String update(@RequestParam("id") Long empId, Model model,
+			@ModelAttribute("employee") EmployeeDTO update_employee) throws ParseException{
 		Employees current = this.employeeService.getbyID(empId);
 		JobDTO currentJob=this.misc.getJobDTOByID(current.getJob().getJobID());
 		EmployeeDTO emp = new EmployeeDTO();
@@ -133,13 +132,14 @@ public class HrController {
 		emp.setJobTitle(current.getJob().getJobTitle());
 		emp.setJobID(current.getJob().getJobID());
 		emp.setEmail(current.getEmail());
-		
+		EmployeeDTO[] a= new EmployeeDTO[1];
+		a[0] = emp;
 		List<JobDTO> j = misc.getJobs();
 		List<DepartmentDTO> d = deptServ.getDepartments();
 		model.addAttribute("currentJob", currentJob);
 		model.addAttribute("jobs", j);
 		model.addAttribute("departments", d);
-		model.addAttribute("employee", emp);
+		model.addAttribute("employee", a);
 		return "update";
 	}
 	

@@ -35,7 +35,7 @@
 		<h1>Update Employee Form</h1>
 		<br/>
 		<spring:url value="/update-save" var="updateUserURL"/>
-		<form:form method="post" modelAttribute="update_employee" action="updateEmployee" id="updateForm">
+		<form:form method="post" modelAttribute="employee" action="updateEmployee" id="updateForm">
 		<c:forEach var="emp" items="${employee}">
 			<form:input type="hidden" value="${emp.ID}" path="ID"/>
 			<spring:bind path="firstName">
