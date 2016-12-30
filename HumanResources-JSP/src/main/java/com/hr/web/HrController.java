@@ -56,7 +56,7 @@ public class HrController {
 		if(newDTO != null){
 			this.currentUser.setUsername(current.getUsername());
 			this.currentUser.setPassword(current.getPassword());
-			return "redirect:/datatable-test"; //table
+			return "redirect:/table"; //table
 		}
 		
 		else{
@@ -71,7 +71,28 @@ public class HrController {
 	//table
 	@RequestMapping(value="/table", method=RequestMethod.GET)
 	public String showAllUsers(Model model){
-		model.addAttribute("employees", this.employeeService.getAll());
+		
+		List<EmployeeDTO> list = Lists.newArrayList();
+		for(Employees e : employeeService.getAll()){
+			EmployeeDTO edto = new EmployeeDTO();
+			if(e.getDepartment()!=null){
+				edto.setDepartmentID(e.getDepartment().getDepartmentId());
+			}
+			else{
+				edto.setDepartmentID((long)000);
+			}
+				edto.setFirstName(e.getFirstName());
+				edto.setLastName(e.getLastName());
+				edto.setJobTitle(e.getJob().getJobTitle());
+				edto.setID(e.getEmployeeId());
+				edto.setDeleteLink("<a href='/delete?id=" + edto.getID()+ "' " 
+				+"class='btn btn-danger'>Delete</a>");
+				edto.setUpdateLink("<a href='/update?id=" + edto.getID()+ "' "
+						+ "class='btn btn-success'>Update</a>");
+				list.add(edto);
+		}
+		
+		model.addAttribute("employees", list);
 		return "table";
 	}
 	

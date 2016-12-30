@@ -17,7 +17,8 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter{
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
-		
+		String p=request.getRequestURI();
+
 		if(!StringUtils.equals("/login", request.getRequestURI()) && !StringUtils.equals("/checklogin", request.getRequestURI())){
 			
 			if(this.usb.getUsername()!=null && this.usb.getPassword()!=null){
